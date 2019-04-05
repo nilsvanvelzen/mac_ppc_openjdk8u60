@@ -66,12 +66,12 @@ AccelGlyphCache_Init(jint width, jint height,
 {
     GlyphCacheInfo *gcinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_Init");
+//    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_Init");
 
     gcinfo = (GlyphCacheInfo *)malloc(sizeof(GlyphCacheInfo));
     if (gcinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "AccelGlyphCache_Init: could not allocate GlyphCacheInfo");
+ //       J2dRlsTraceLn(J2D_TRACE_ERROR,
+ //           "AccelGlyphCache_Init: could not allocate GlyphCacheInfo");
         return NULL;
     }
 

@@ -23,7 +23,7 @@
 # questions.
 #
 
-ifeq ($(OPENJDK_TARGET_OS), macosx)
+ifeq ($(OPENJDK_TARGET_OS), macosx_SKIP)
 
   $(eval $(call SetupNativeCompilation,BUILD_LIBAPPLESCRIPTENGINE, \
       LIBRARY := AppleScriptEngine, \
@@ -50,7 +50,7 @@ endif
 
 ##########################################################################################
 
-ifeq ($(OPENJDK_TARGET_OS), macosx)
+ifeq ($(OPENJDK_TARGET_OS), macosx_SKIP)
 
   $(eval $(call SetupNativeCompilation,BUILD_LIBOSXAPP, \
       LIBRARY := osxapp, \
@@ -85,7 +85,7 @@ endif
 
 ##########################################################################################
 
-ifeq ($(OPENJDK_TARGET_OS), macosx)
+ifeq ($(OPENJDK_TARGET_OS), macosx_SKIP)
 
   LIBOSX_DIRS := \
       $(JDK_TOPDIR)/src/macosx/native/com/apple/concurrent \

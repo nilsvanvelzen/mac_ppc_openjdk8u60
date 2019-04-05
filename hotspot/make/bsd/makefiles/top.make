@@ -98,7 +98,7 @@ jvmti_stuff: $(Cached_plat) $(adjust-mflags)
 trace_stuff: jvmti_stuff $(Cached_plat) $(adjust-mflags)
 	@$(MAKE) -f trace.make $(MFLAGS-adjusted)
 
-ifeq ($(OS_VENDOR), Darwin)
+ifeq ($(OS_VENDOR), Darwinxxx)
 # generate dtrace header files
 dtrace_stuff: $(Cached_plat) $(adjust-mflags)
 	@$(MAKE) -f dtrace.make dtrace_stuff $(MFLAGS-adjusted) GENERATED=$(GENERATED)

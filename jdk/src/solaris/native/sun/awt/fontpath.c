@@ -1133,7 +1133,7 @@ Java_sun_font_FontConfigManager_getFontConfig
     locale = (*env)->GetStringUTFChars(env, localeStr, 0);
     if (locale == NULL) {
         (*env)->ExceptionClear(env);
-        JNU_ThrowOutOfMemoryError(env, "Could not create locale");
+ //       JNU_ThrowOutOfMemoryError(env, "Could not create locale");
         return;
     }
 

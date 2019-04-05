@@ -29,7 +29,7 @@ include MakeBase.gmk
 default: bundles
 
 # Only macosx has bundles defined.
-ifeq ($(OPENJDK_TARGET_OS), macosx)
+ifeq ($(OPENJDK_TARGET_OS), macosx_SKIP)
 
   bundles: jre-bundle jdk-bundle
 

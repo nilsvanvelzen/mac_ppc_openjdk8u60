@@ -293,23 +293,6 @@ Java_sun_font_CFontManager_loadNativeFonts
 
     jint num = 0;
 
-JNF_COCOA_ENTER(env);
-
-    NSArray *filteredFonts = GetFilteredFonts();
-    num = (jint)[filteredFonts count];
-
-    jint i;
-    for (i = 0; i < num; i++) {
-        NSString *fontname = [filteredFonts objectAtIndex:i];
-        jobject jFontName = JNFNSToJavaString(env, fontname);
-        jobject jFontFamilyName =
-            JNFNSToJavaString(env, GetFamilyNameForFontName(fontname));
-
-        JNFCallVoidMethod(env, jthis,
-                          jm_registerFont, jFontName, jFontFamilyName);
-    }
-
-JNF_COCOA_EXIT(env);
 }
 
 /*
@@ -321,22 +304,6 @@ JNIEXPORT void JNICALL
 Java_sun_font_CFontManager_loadNativeDirFonts
 (JNIEnv *env, jclass clz, jstring filename)
 {
-JNF_COCOA_ENTER(env);
-
-    NSString *nsFilePath = JNFJavaToNSString(env, filename);
-
-    FSRef iFile;
-    OSStatus status = CreateFSRef(&iFile, nsFilePath);
-
-    if (status == noErr) {
-        ATSFontContainerRef oContainer;
-        status = ATSFontActivateFromFileReference(&iFile, kATSFontContextLocal,
-                                                  kATSFontFormatUnspecified,
-                                                  NULL, kNilOptions,
-                                                  &oContainer);
-    }
-
-JNF_COCOA_EXIT(env);
 }
 
 #pragma mark --- sun.font.CFont JNI ---
@@ -353,18 +320,6 @@ Java_sun_font_CFont_createNativeFont
 {
     AWTFont *awtFont = nil;
 
-JNF_COCOA_ENTER(env);
-
-    awtFont =
-        [AWTFont awtFontForName:JNFJavaToNSString(env, nativeFontName)
-         style:style]; // autoreleased
-
-    if (awtFont) {
-        CFRetain(awtFont); // GC
-    }
-
-JNF_COCOA_EXIT(env);
-
     return ptr_to_jlong(awtFont);
 }
 
@@ -378,16 +333,6 @@ Java_sun_font_CFont_getWidthNative
     (JNIEnv *env, jobject cfont, jlong awtFontPtr)
 {
     float widthVal;
-JNF_COCOA_ENTER(env);
-
-    AWTFont *awtFont = (AWTFont *)jlong_to_ptr(awtFontPtr);
-    NSFont* nsFont = awtFont->fFont;
-    NSFontDescriptor *fontDescriptor = nsFont.fontDescriptor;
-    NSDictionary *fontTraits = [fontDescriptor objectForKey : NSFontTraitsAttribute];
-    NSNumber *width = [fontTraits objectForKey : NSFontWidthTrait];
-    widthVal = (float)[width floatValue];
-
-JNF_COCOA_EXIT(env);
    return (jfloat)widthVal;
 }
 

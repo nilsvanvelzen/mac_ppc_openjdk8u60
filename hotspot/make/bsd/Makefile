@@ -77,7 +77,7 @@ endif
 
 # we need to set up LP64 correctly to satisfy sanity checks in adlc
 ifneq ("$(filter $(LP64_ARCH),$(BUILDARCH))","")
-  MFLAGS += " LP64=1 "
+  MFLAGS += " LP64=0 "
 endif
 
 # pass USE_SUNCC further, through MFLAGS

@@ -616,7 +616,7 @@ struct OSX_DirectAudioDevice {
 
     ~OSX_DirectAudioDevice() {
         if (audioUnit) {
-            AudioComponentInstanceDispose(audioUnit);
+            //AudioComponentInstanceDispose(audioUnit);
         }
         if (resampler) {
             delete resampler;
@@ -626,6 +626,7 @@ struct OSX_DirectAudioDevice {
 
 static AudioUnit CreateOutputUnit(AudioDeviceID deviceID, int isSource)
 {
+/*
     OSStatus err;
     AudioUnit unit;
 
@@ -679,6 +680,8 @@ static AudioUnit CreateOutputUnit(AudioDeviceID deviceID, int isSource)
     }
 
     return unit;
+*/
+return NULL;
 }
 
 static OSStatus OutputCallback(void                         *inRefCon,

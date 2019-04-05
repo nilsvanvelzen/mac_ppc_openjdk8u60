@@ -456,10 +456,28 @@ extern "C" {
     volatile void *ptr,
     long long unsigned int oldval,
     long long unsigned int newval) {
-    ShouldNotCallThis();
+   
+    long long unsigned int curval;
+    __sync_synchronize();
+    curval = *( long long unsigned int *) (ptr);
+//    curval = static_cast<long long unsigned int>(*ptr);
+    if (curval == oldval){
+       //static_cast<long long unsigned int> *ptr = newval;
+     *( long long unsigned int *) (ptr) = newval; 
+    }
+    return curval;
+
+//    ShouldNotCallThis();
   }
 };
 #endif // !_LP64
+
+
+
+
+
+
+
 
 #ifndef PRODUCT
 void os::verify_stack_alignment() {

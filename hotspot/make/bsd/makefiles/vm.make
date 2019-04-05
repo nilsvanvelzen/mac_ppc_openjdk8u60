@@ -397,7 +397,7 @@ include $(MAKEFILES_DIR)/saproc.make
 
 ifeq ($(OS_VENDOR), Darwin)
 # no libjvm_db for macosx
-build: $(LIBJVM) $(LAUNCHER) $(LIBJSIG) $(BUILDLIBSAPROC) dtraceCheck
+build: $(LIBJVM) $(LAUNCHER) $(LIBJSIG) $(BUILDLIBSAPROC) 
 	echo "Doing vm.make build:"
 else
 build: $(LIBJVM) $(LAUNCHER) $(LIBJSIG) $(LIBJVM_DB) $(BUILDLIBSAPROC)

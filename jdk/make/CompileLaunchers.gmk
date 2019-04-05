@@ -242,11 +242,11 @@ ifeq ($(OPENJDK_TARGET_OS), windows)
 endif
 
 
-ifndef BUILD_HEADLESS_ONLY
-  $(eval $(call SetupLauncher,appletviewer, \
-      -DJAVA_ARGS='{ "-J-ms8m"$(COMMA) "sun.applet.Main"$(COMMA) }',, \
-      $(XLIBS)))
-endif
+#ifndef BUILD_HEADLESS_ONLY
+#  $(eval $(call SetupLauncher,appletviewer, \
+#      -DJAVA_ARGS='{ "-J-ms8m"$(COMMA) "sun.applet.Main"$(COMMA) }',, \
+#      $(XLIBS)))
+#endif
 
 $(eval $(call SetupLauncher,extcheck, \
     -DJAVA_ARGS='{ "-J-ms8m"$(COMMA) "com.sun.tools.extcheck.Main"$(COMMA) }'))
@@ -356,11 +356,11 @@ $(eval $(call SetupLauncher,keytool, \
 $(eval $(call SetupLauncher,native2ascii, \
     -DJAVA_ARGS='{ "-J-ms8m"$(COMMA) "sun.tools.native2ascii.Main"$(COMMA) }'))
 
-ifndef BUILD_HEADLESS_ONLY
-  $(eval $(call SetupLauncher,policytool, \
-      -DJAVA_ARGS='{ "-J-ms8m"$(COMMA) "sun.security.tools.policytool.PolicyTool"$(COMMA) }',, \
-      $(XLIBS)))
-endif
+#ifndef BUILD_HEADLESS_ONLY
+#  $(eval $(call SetupLauncher,policytool, \
+#      -DJAVA_ARGS='{ "-J-ms8m"$(COMMA) "sun.security.tools.policytool.PolicyTool"$(COMMA) }',, \
+#      $(XLIBS)))
+#endif
 
 $(eval $(call SetupLauncher,rmic, \
     -DEXPAND_CLASSPATH_WILDCARDS \

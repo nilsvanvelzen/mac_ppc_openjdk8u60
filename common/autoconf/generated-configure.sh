@@ -3879,7 +3879,7 @@ fi
 #CUSTOM_AUTOCONF_INCLUDE
 
 # Do not change or remove the following line, it is needed for consistency checks:
-DATE_WHEN_GENERATED=1433258489
+DATE_WHEN_GENERATED=1554112088
 
 ###############################################################################
 #
@@ -11295,7 +11295,7 @@ fi
   fi
 
 
-# The cooked update version used to encode trailing letters in the update
+  # The cooked update version used to encode trailing letters in the update
   # version into a trailing number. That is no longer needed, but need to
   # keep the format in 8u for compatibility.
   COOKED_JDK_UPDATE_VERSION="${JDK_UPDATE_VERSION}0"
@@ -19320,7 +19320,7 @@ fi
     # Fail-fast: verify we're building on Xcode 4, we cannot build with Xcode 5 or later
     XCODE_VERSION=`$XCODEBUILD -version | grep '^Xcode ' | sed 's/Xcode //'`
     XC_VERSION_PARTS=( ${XCODE_VERSION//./ } )
-    if test ! "${XC_VERSION_PARTS[0]}" = "4"; then
+    if test ! "${XC_VERSION_PARTS[0]}" = "3"; then
       as_fn_error $? "Xcode 4 is required to build JDK 8, the version found was $XCODE_VERSION. Use --with-xcode-path to specify the location of Xcode 4 or make Xcode 4 active by using xcode-select." "$LINENO" 5
     fi
 

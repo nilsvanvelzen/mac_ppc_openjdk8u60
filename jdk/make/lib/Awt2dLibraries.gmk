@@ -226,7 +226,7 @@ ifeq ($(OPENJDK_TARGET_OS), windows)
       $(JDK_TOPDIR)/src/$(OPENJDK_TARGET_OS_API_DIR)/native/sun/windows \
       $(JDK_TOPDIR)/src/$(OPENJDK_TARGET_OS_API_DIR)/native/sun/java2d/windows \
       $(JDK_TOPDIR)/src/$(OPENJDK_TARGET_OS_API_DIR)/native/sun/java2d/d3d
-else ifneq ($(OPENJDK_TARGET_OS), macosx)
+else ifneq ($(OPENJDK_TARGET_OS), macosx_skip)
   LIBAWT_DIRS += \
       $(JDK_TOPDIR)/src/$(OPENJDK_TARGET_OS_API_DIR)/native/sun/java2d/x11
 endif
@@ -318,7 +318,7 @@ ifeq ($(OPENJDK_TARGET_OS), aix)
 endif
 
 ifeq ($(OPENJDK_TARGET_OS), macosx)
-  LIBAWT_FILES += awt_LoadLibrary.c
+  LIBAWT_FILES += awt_LoadLibrary.c initIDs.c img_colors.c
 endif
 
 ifeq ($(OPENJDK_TARGET_OS)-$(OPENJDK_TARGET_CPU_ARCH), solaris-sparc)
@@ -481,11 +481,9 @@ $(eval $(call SetupNativeCompilation,BUILD_LIBAWT, \
     LDFLAGS_SUFFIX_linux := -ljvm $(LIBM) $(LIBDL) -ljava, \
     LDFLAGS_SUFFIX_solaris := -ljvm $(LIBM) $(LIBDL) -ljava -lc, \
     LDFLAGS_SUFFIX_aix :=-ljvm $(LIBM) $(LIBDL) -ljava -lm,\
-    LDFLAGS_SUFFIX_macosx := -lmlib_image -ljvm $(LIBM) \
+    LDFLAGS_SUFFIX_macosx := -ljvm $(LIBM) \
         -framework Cocoa \
         -framework OpenGL \
-        -framework JavaNativeFoundation \
-        -framework JavaRuntimeSupport \
         -framework ApplicationServices \
         -framework AudioToolbox \
         -ljava, \
@@ -508,7 +506,7 @@ $(eval $(call SetupNativeCompilation,BUILD_LIBAWT, \
 
 $(BUILD_LIBAWT): $(BUILD_LIBJAVA)
 
-ifeq ($(OPENJDK_TARGET_OS), macosx)
+ifeq ($(OPENJDK_TARGET_OS), macosx_SKIP)
   $(BUILD_LIBAWT): $(BUILD_LIBMLIB_IMAGE)
 endif
 
@@ -778,7 +776,7 @@ ifeq ($(OPENJDK_TARGET_OS), windows)
   LIBFONTMANAGER_EXCLUDE_FILES += X11FontScaler.c \
       X11TextRenderer.c
   LIBFONTMANAGER_OPTIMIZATION := HIGHEST
-else ifeq ($(OPENJDK_TARGET_OS), macosx)
+else ifeq ($(OPENJDK_TARGET_OS), macosx_SKIP)
   LIBFONTMANAGER_EXCLUDE_FILES += X11FontScaler.c \
       X11TextRenderer.c \
       fontpath.c \
@@ -887,7 +885,7 @@ ifndef OPENJDK
           $(call SET_SHARED_LIBRARY_ORIGIN), \
       LDFLAGS_windows := user32.lib $(JDK_OUTPUTDIR)/objs/libfontmanager/fontmanager.lib, \
       LDFLAGS_SUFFIX_posix := $(LIBM) $(LIBCXX) -lfontmanager -ljava -ljvm -lc, \
-      LDFLAGS_SUFFIX_solaris := -lawt -lawt_xawt, \
+      LDFLAGS_SUFFIX_solaris := -lawt , \
       VERSIONINFO_RESOURCE := $(JDK_TOPDIR)/src/windows/resource/version.rc, \
       RC_FLAGS := $(RC_FLAGS) \
           -D "JDK_FNAME=t2k.dll" \
@@ -943,17 +941,17 @@ ifeq ($(OPENJDK_TARGET_OS), windows)
 
 else # OPENJDK_TARGET_OS not windows
 
-  ifeq ($(OPENJDK_TARGET_OS), macosx)
+  ifeq ($(OPENJDK_TARGET_OS), macosx_skip)
     JAWT_FILES := jawt.m
     JAWT_LIBS := -lawt_lwawt
   else
     JAWT_FILES := jawt.c
     JAWT_LIBS :=
-    ifneq ($(OPENJDK_TARGET_OS), solaris)
-      JAWT_LIBS += -lawt
+    ifneq ($(OPENJDK_TARGET_OS), solaris) #VAAG WE KOMEN HIER
+      JAWT_LIBS += 
     endif
     ifndef BUILD_HEADLESS_ONLY
-      JAWT_LIBS += -lawt_xawt
+      JAWT_LIBS += 
     else
       JAWT_LIBS += -lawt_headless
       HEADLESS_CFLAG += -DHEADLESS
@@ -989,7 +987,7 @@ else # OPENJDK_TARGET_OS not windows
     $(BUILD_LIBJAWT): $(INSTALL_LIBRARIES_HERE)/$(LIBRARY_PREFIX)awt_headless$(SHARED_LIBRARY_SUFFIX)
   endif
 
-  ifeq ($(OPENJDK_TARGET_OS), macosx)
+  ifeq ($(OPENJDK_TARGET_OS), macosx_skip)
     $(BUILD_LIBJAWT): $(INSTALL_LIBRARIES_HERE)/$(LIBRARY_PREFIX)awt_lwawt$(SHARED_LIBRARY_SUFFIX)
   endif
 
@@ -1091,7 +1089,7 @@ endif
 
 ifeq ($(BUILD_HEADLESS), true)
   # Mac and Windows only use the native AWT lib, do not build libawt_headless
-  ifeq ($(findstring $(OPENJDK_TARGET_OS), windows macosx),)
+  ifeq ($(findstring $(OPENJDK_TARGET_OS), windows),)
 
     LIBAWT_HEADLESS_DIRS := $(JDK_TOPDIR)/src/share/native/sun/font \
         $(JDK_TOPDIR)/src/share/native/sun/java2d/opengl \
@@ -1100,7 +1098,7 @@ ifeq ($(BUILD_HEADLESS), true)
         $(JDK_TOPDIR)/src/solaris/native/sun/java2d/opengl \
         $(JDK_TOPDIR)/src/solaris/native/sun/java2d/x11
 
-    ifeq ($(OPENJDK_TARGET_OS), macosx)
+    ifeq ($(OPENJDK_TARGET_OS), macosx_skip)
       LIBAWT_HEADLESS_DIRS += $(JDK_TOPDIR)/src/macosx/native/sun/font
     endif
 
@@ -1198,7 +1196,7 @@ ifndef BUILD_HEADLESS_ONLY
     GIFLIB_CFLAGS := -I$(JDK_TOPDIR)/src/share/native/sun/awt/giflib
   endif
 
-  ifneq ($(OPENJDK_TARGET_OS), macosx)
+  ifneq ($(OPENJDK_TARGET_OS), macosx_skip)
     LIBSPLASHSCREEN_DIRS += $(JDK_TOPDIR)/src/$(OPENJDK_TARGET_OS_API_DIR)/native/sun/awt/splashscreen
   else
     LIBSPLASHSCREEN_DIRS += $(JDK_TOPDIR)/src/macosx/native/sun/awt/splashscreen
@@ -1207,7 +1205,7 @@ ifndef BUILD_HEADLESS_ONLY
   LIBSPLASHSCREEN_CFLAGS := -DSPLASHSCREEN -DPNG_NO_MMX_CODE \
       $(foreach dir, $(LIBSPLASHSCREEN_DIRS), -I$(dir))
 
-  ifeq ($(OPENJDK_TARGET_OS), macosx)
+  ifeq ($(OPENJDK_TARGET_OS), macosx_skip)
     LIBSPLASHSCREEN_CFLAGS := -I$(JDK_TOPDIR)/src/macosx/native/sun/awt/splashscreen \
         $(LIBSPLASHSCREEN_CFLAGS)
     LIBSPLASHSCREEN_CFLAGS += -DWITH_MACOSX
@@ -1236,19 +1234,18 @@ ifndef BUILD_HEADLESS_ONLY
     LIBSPLASHSCREEN_CFLAGS += $(ZLIB_CPPFLAGS)
   endif
 
-  ifeq ($(OPENJDK_TARGET_OS), macosx)
+  ifeq ($(OPENJDK_TARGET_OS), macosx_skip)
     LIBSPLASHSCREEN_LDFLAGS_SUFFIX += $(LIBM) -lpthread -liconv -losxapp \
         -framework ApplicationServices \
         -framework Foundation \
         -framework Cocoa \
-        -framework JavaNativeFoundation
   else ifeq ($(OPENJDK_TARGET_OS), windows)
     LIBSPLASHSCREEN_LDFLAGS_SUFFIX += kernel32.lib user32.lib gdi32.lib delayimp.lib -DELAYLOAD:user32.dll
   else ifeq ($(OPENJDK_TARGET_OS), solaris)
     # Solaris still uses OPENWIN_LIB ..
     LIBSPLASHSCREEN_LDFLAGS_SUFFIX += -L$(OPENWIN_LIB)$(OPENJDK_TARGET_CPU_ISADIR) -lX11 -lXext $(LIBM) -lpthread
   else	# .. all other Unixes can use X_LIBS
-    LIBSPLASHSCREEN_LDFLAGS_SUFFIX += $(X_LIBS) -lX11 -lXext $(LIBM) -lpthread
+    LIBSPLASHSCREEN_LDFLAGS_SUFFIX += $(X_LIBS) -lX11 -lXext $(LIBM) -lpthread -liconv
   endif
 
   $(eval $(call SetupNativeCompilation,LIBSPLASHSCREEN, \
@@ -1274,7 +1271,7 @@ ifndef BUILD_HEADLESS_ONLY
 
   BUILD_LIBRARIES += $(LIBSPLASHSCREEN)
 
-  ifeq ($(OPENJDK_TARGET_OS), macosx)
+  ifeq ($(OPENJDK_TARGET_OS), macosx_skip)
     $(LIBSPLASHSCREEN): $(INSTALL_LIBRARIES_HERE)/$(LIBRARY_PREFIX)osxapp$(SHARED_LIBRARY_SUFFIX)
   endif
 
@@ -1323,7 +1320,7 @@ endif
 
 ##########################################################################################
 
-ifeq ($(OPENJDK_TARGET_OS), macosx)
+ifeq ($(OPENJDK_TARGET_OS), macosx_skip)
 
   LIBAWT_LWAWT_FILES := \
       awt.m \
@@ -1429,7 +1426,7 @@ ifeq ($(OPENJDK_TARGET_OS), macosx)
           -I$(JDK_TOPDIR)/src/share/native/sun/awt/debug, \
       LDFLAGS := $(LDFLAGS_JDKLIB) \
           $(call SET_SHARED_LIBRARY_ORIGIN), \
-      LDFLAGS_SUFFIX_macosx := -lawt -lmlib_image -losxapp -ljvm $(LIBM) \
+      LDFLAGS_SUFFIX_macosx := -lawt -losxapp -ljvm $(LIBM) \
           -framework Accelerate \
           -framework ApplicationServices \
           -framework AudioToolbox \
@@ -1437,10 +1434,8 @@ ifeq ($(OPENJDK_TARGET_OS), macosx)
           -framework Cocoa \
           -framework Security \
           -framework ExceptionHandling \
-          -framework JavaNativeFoundation \
-          -framework JavaRuntimeSupport \
           -framework OpenGL \
-          -framework QuartzCore -ljava, \
+          -framework QuartzCore , \
       OBJECT_DIR := $(JDK_OUTPUTDIR)/objs/libawt_lwawt, \
       DEBUG_SYMBOLS := $(DEBUG_ALL_BINARIES)))
 
@@ -1458,7 +1453,7 @@ endif
 
 ##########################################################################################
 
-ifeq ($(OPENJDK_TARGET_OS), macosx)
+ifeq ($(OPENJDK_TARGET_OS), macosx_skip)
 
   $(eval $(call SetupNativeCompilation,BUILD_LIBOSXUI, \
       LIBRARY := osxui, \
@@ -1477,8 +1472,6 @@ ifeq ($(OPENJDK_TARGET_OS), macosx)
           -framework Cocoa \
           -framework Carbon \
           -framework ApplicationServices \
-          -framework JavaNativeFoundation \
-          -framework JavaRuntimeSupport \
           -ljava -ljvm, \
       OBJECT_DIR := $(JDK_OUTPUTDIR)/objs/libosxui, \
       DEBUG_SYMBOLS := $(DEBUG_ALL_BINARIES)))

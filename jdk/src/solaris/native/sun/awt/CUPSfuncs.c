@@ -148,9 +148,9 @@ Java_sun_print_CUPSPrinter_getCupsServer(JNIEnv *env,
     if (server != NULL) {
         // Is this a local domain socket?
         if (strncmp(server, "/", 1) == 0) {
-            cServer = JNU_NewStringPlatform(env, "localhost");
+//            cServer = JNU_NewStringPlatform(env, "localhost");
         } else {
-            cServer = JNU_NewStringPlatform(env, server);
+//            cServer = JNU_NewStringPlatform(env, server);
         }
     }
     return cServer;
@@ -214,7 +214,7 @@ Java_sun_print_CUPSPrinter_getMedia(JNIEnv *env,
     name = (*env)->GetStringUTFChars(env, printer, NULL);
     if (name == NULL) {
         (*env)->ExceptionClear(env);
-        JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
+//        JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
         return NULL;
     }
 
@@ -250,28 +250,28 @@ Java_sun_print_CUPSPrinter_getMedia(JNIEnv *env,
             j2d_ppdClose(ppd);
             DPRINTF("CUPSfuncs::bad alloc new array\n", "")
             (*env)->ExceptionClear(env);
-            JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
+ //           JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
             return NULL;
         }
 
         for (i = 0; optionPage!=NULL && i<nPages; i++) {
             choice = (optionPage->choices)+i;
-            utf_str = JNU_NewStringPlatform(env, choice->text);
+//            utf_str = JNU_NewStringPlatform(env, choice->text);
             if (utf_str == NULL) {
                 unlink(filename);
                 j2d_ppdClose(ppd);
                 DPRINTF("CUPSfuncs::bad alloc new string ->text\n", "")
-                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
+//                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
                 return NULL;
             }
             (*env)->SetObjectArrayElement(env, nameArray, i*2, utf_str);
             (*env)->DeleteLocalRef(env, utf_str);
-            utf_str = JNU_NewStringPlatform(env, choice->choice);
+//            utf_str = JNU_NewStringPlatform(env, choice->choice);
             if (utf_str == NULL) {
                 unlink(filename);
                 j2d_ppdClose(ppd);
                 DPRINTF("CUPSfuncs::bad alloc new string ->choice\n", "")
-                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
+//                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
                 return NULL;
             }
             (*env)->SetObjectArrayElement(env, nameArray, i*2+1, utf_str);
@@ -280,23 +280,23 @@ Java_sun_print_CUPSPrinter_getMedia(JNIEnv *env,
 
         for (i = 0; optionTray!=NULL && i<nTrays; i++) {
             choice = (optionTray->choices)+i;
-            utf_str = JNU_NewStringPlatform(env, choice->text);
+//            utf_str = JNU_NewStringPlatform(env, choice->text);
             if (utf_str == NULL) {
                 unlink(filename);
                 j2d_ppdClose(ppd);
                 DPRINTF("CUPSfuncs::bad alloc new string text\n", "")
-                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
+//§                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
                 return NULL;
             }
             (*env)->SetObjectArrayElement(env, nameArray,
                                           (nPages+i)*2, utf_str);
             (*env)->DeleteLocalRef(env, utf_str);
-            utf_str = JNU_NewStringPlatform(env, choice->choice);
+ //           utf_str = JNU_NewStringPlatform(env, choice->choice);
             if (utf_str == NULL) {
                 unlink(filename);
                 j2d_ppdClose(ppd);
                 DPRINTF("CUPSfuncs::bad alloc new string choice\n", "")
-                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
+//                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
                 return NULL;
             }
             (*env)->SetObjectArrayElement(env, nameArray,
@@ -326,7 +326,7 @@ Java_sun_print_CUPSPrinter_getPageSizes(JNIEnv *env,
     const char *name = (*env)->GetStringUTFChars(env, printer, NULL);
     if (name == NULL) {
         (*env)->ExceptionClear(env);
-        JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
+ //       JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
         return NULL;
     }
     const char *filename;
@@ -356,7 +356,7 @@ Java_sun_print_CUPSPrinter_getPageSizes(JNIEnv *env,
             j2d_ppdClose(ppd);
             DPRINTF("CUPSfuncs::bad alloc new float array\n", "")
             (*env)->ExceptionClear(env);
-            JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
+//            JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
             return NULL;
         }
 
@@ -365,7 +365,7 @@ Java_sun_print_CUPSPrinter_getPageSizes(JNIEnv *env,
             unlink(filename);
             j2d_ppdClose(ppd);
             (*env)->ExceptionClear(env);
-            JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
+ //           JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
             return NULL;
         }
         for (i = 0; i<option->num_choices; i++) {

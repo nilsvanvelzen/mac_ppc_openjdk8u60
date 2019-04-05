@@ -21,7 +21,6 @@
  * questions.
  *
  */
-
 // no precompiled headers
 #include "classfile/classLoader.hpp"
 #include "classfile/systemDictionary.hpp"
@@ -170,7 +169,7 @@ julong os::available_memory() {
 // available here means free
 julong os::Bsd::available_memory() {
   uint64_t available = physical_memory() >> 2;
-#ifdef __APPLE__
+#ifdef __APPLE__SKIP
   mach_msg_type_number_t count = HOST_VM_INFO64_COUNT;
   vm_statistics64_data_t vmstat;
   kern_return_t kerr = host_statistics64(mach_host_self(), HOST_VM_INFO64,
@@ -676,7 +675,7 @@ extern "C" objc_registerThreadWithCollector_t objc_registerThreadWithCollectorFu
 objc_registerThreadWithCollector_t objc_registerThreadWithCollectorFunction = NULL;
 #endif
 
-#ifdef __APPLE__
+#ifdef __APPLE__SKIP
 static uint64_t locate_unique_thread_id(mach_port_t mach_thread_port) {
   // Additional thread_id used to correlate threads in SA
   thread_identifier_info_data_t     m_ident_info;
@@ -716,7 +715,7 @@ static void *java_start(Thread *thread) {
 
   osthread->set_thread_id(os::Bsd::gettid());
 
-#ifdef __APPLE__
+#ifdef __APPLE__SKIP
   uint64_t unique_thread_id = locate_unique_thread_id(osthread->thread_id());
   guarantee(unique_thread_id != 0, "unique thread id was not found");
   osthread->set_unique_thread_id(unique_thread_id);
@@ -879,7 +878,7 @@ bool os::create_attached_thread(JavaThread* thread) {
   osthread->set_thread_id(os::Bsd::gettid());
 
   // Store pthread info into the OSThread
-#ifdef __APPLE__
+#ifdef __APPLE__SKIP
   uint64_t unique_thread_id = locate_unique_thread_id(osthread->thread_id());
   guarantee(unique_thread_id != 0, "just checking");
   osthread->set_unique_thread_id(unique_thread_id);
@@ -3774,7 +3773,7 @@ int os::active_processor_count() {
 }
 
 void os::set_native_thread_name(const char *name) {
-#if defined(__APPLE__) && MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_5
+#if defined(__APPLE__SKIP) && MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_5
   // This is only supported in Snow Leopard and beyond
   if (name != NULL) {
     // Add a "Java: " prefix to the name

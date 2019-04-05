@@ -1026,7 +1026,7 @@ NET_MapSocketOption(jint cmd, int *level, int *optname) {
                 *level = IPPROTO_IPV6;
                 *optname = IPV6_MULTICAST_LOOP;
                 return 0;
-#if (defined(__solaris__) || defined(MACOSX))
+#if (defined(__solaris__) || defined(MACOSX_SKIP))
             // Map IP_TOS request to IPV6_TCLASS
             case java_net_SocketOptions_IP_TOS:
                 *level = IPPROTO_IPV6;

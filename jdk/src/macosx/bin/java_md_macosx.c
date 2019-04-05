@@ -229,7 +229,8 @@ static InvocationFunctions *GetExportedJNIFunctions() {
 #elif defined(__x86_64__)
         preferredJVM = "server";
 #else
-#error "Unknown architecture - needs definition"
+        preferredJVM = "server";
+//#error "Unknown architecture - needs definition"
 #endif
     }
 
@@ -305,7 +306,7 @@ static int (*main_fptr)(int argc, char **argv) = NULL;
  */
 static void *apple_main (void *arg)
 {
-    objc_registerThreadWithCollector();
+    //objc_registerThreadWithCollector();
 
     if (main_fptr == NULL) {
         main_fptr = (int (*)())dlsym(RTLD_DEFAULT, "main");
@@ -901,7 +902,7 @@ JLI_GetJavaVMInstance()
 void
 RegisterThread()
 {
-    objc_registerThreadWithCollector();
+    //objc_registerThreadWithCollector();
 }
 
 static void
