@@ -189,7 +189,7 @@ ifeq ($(OPENJDK_TARGET_OS)-$(OPENJDK_TARGET_CPU_ARCH), solaris-sparc)
           $(CFLAGS_JDKLIB), \
       MAPFILE := $(BUILD_LIBMLIB_IMAGE_MAPFILE), \
       LDFLAGS := $(LDFLAGS_JDKLIB) \
-          $(BUILD_LIBMLIB_LDLIBS) -ljava -ljvm \
+          $(BUILD_LIBMLIB_LDLIBS) -ljvm \
           $(call SET_SHARED_LIBRARY_ORIGIN), \
       LDFLAGS_SUFFIX_solaris := -lc, \
       OBJECT_DIR := $(JDK_OUTPUTDIR)/objs/libmlib_image_v, \
