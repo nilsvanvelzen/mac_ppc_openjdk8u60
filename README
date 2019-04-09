@@ -1,21 +1,23 @@
 README:
+
+
 jdk1.5 is the last officially supported java on Mac OSX 1.5 with PPC processor.
 
-There is a funtioning 1.7 jdk availalble based on openjdk1.7
+There is a functioning 1.7 jdk available based on openjdk1.7
 download from https://wiki.openjdk.java.net/display/BSDPort/Darwin9Build
-Athough I've never been able to rebuild openjdk1.7 for mac PPC I could use this bootstrap
-version to get neccesary stuff working on my G5.
+Although I've never been able to rebuild openjdk1.7 for mac PPC I could use this bootstrap
+version to get necessary stuff working on my G5.
 
-But 1.7 is old as well and somtimes I need a 1.8 version. 
-I'm only interrested in a headless version. Getting the grapics working might involve a lot of work.
+But 1.7 is old as well and sometimes I need a 1.8 version. 
+I'm only interested in a headless version. Getting the graphics working might involve a lot of work.
 I'm happy with a 1.8 version that is able to run some software e.g. OpenDA or running Bazel.
 
 The current state of this project is that I have made all the (dirty) hacks to the openjdk codebase in order to compile
 a 1.8 jdk that runs on OSX 1.5 with PPC processor. Depending on the needs I'll try to get more and more working in time.
 
-I have made some changes in order to get the hotspot to compile and work. I'm not sure whether thise  changes are correct but until now, when stuff runs it all seems to be stable.   
+I have made some changes in order to get the hotspot to compile and work. I'm not sure whether these  changes are correct but until now, when stuff runs it all seems to be stable.   
 
-We use the assembly free zero hotstop on nowdays old hardware, hence performance is not super but at least some modern java stuff can now be run on Mac PPC
+We use the assembly free zero hotspot and our hardware is old, hence performance is not super but at least some modern java stuff can now be run on Mac PPC
 
 How to compile: download your bootstrap jkd 1.7 (https://wiki.openjdk.java.net/display/BSDPort/Darwin9Build)
 set the location of your bootstrap jdk1/7 in build_nils.sh
@@ -24,7 +26,7 @@ set the location of your bootstrap jdk1/7 in build_nils.sh
 
 Should do the trick (I hope)
 
-Have fun, I hope my work might be usefull for others as well.
+Have fun, I hope my work might be useful for others as well.
 
 
 ==== Original text of readme ====
