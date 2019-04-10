@@ -18,8 +18,9 @@ sudo ulimit -n 512
 bootstrap_jdk=/Users/nils/Devel/jdk/openjdk7-zerovm-ppc-jyeary-2012-02-16-07-18-b00
 #
 
-bash configure --with-num-cores=1  --disable-headful --enable-option-checking=fatal --with-boot-jdk=$bootstrap_jdk --with-jvm-variants=zero CC=gcc-4.2 CXX=g++-4.2
+bash configure --prefix=$HOME/java8 --with-num-cores=1  --disable-headful --enable-option-checking=fatal --with-boot-jdk=$bootstrap_jdk --with-jvm-variants=zero CC=gcc-4.2 CXX=g++-4.2
 
 # don't know how to get the dtrace stuff working hence we disable it in the make (and hacks in makefiles)
 make HOTSPOT_DISABLE_DTRACE_PROBES=true LOG=debug 
+make HOTSPOT_DISABLE_DTRACE_PROBES=true LOG=debug install
 

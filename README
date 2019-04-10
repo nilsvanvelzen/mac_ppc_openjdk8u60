@@ -1,7 +1,7 @@
 README:
 
 
-jdk1.5 is the last officially supported java on Mac OSX 1.5 with PPC processor.
+jdk1.5 is the last officially supported java on Mac OSX 10.5.8 (Leopard) with PPC processor.
 
 There is a functioning 1.7 jdk available based on openjdk1.7
 download from https://wiki.openjdk.java.net/display/BSDPort/Darwin9Build
@@ -13,7 +13,7 @@ I'm only interested in a headless version. Getting the graphics working might in
 I'm happy with a 1.8 version that is able to run some software e.g. OpenDA or running Bazel.
 
 The current state of this project is that I have made all the (dirty) hacks to the openjdk codebase in order to compile
-a 1.8 jdk that runs on OSX 1.5 with PPC processor. Depending on the needs I'll try to get more and more working in time.
+a 1.8 jdk that runs on OSX 10.5.8 with PPC processor. Depending on the needs I'll try to get more and more working in time.
 
 I have made some changes in order to get the hotspot to compile and work. I'm not sure whether these  changes are correct but until now, when stuff runs it all seems to be stable.   
 

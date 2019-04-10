@@ -85,13 +85,15 @@ JNIEXPORT jboolean JNICALL AWTIsHeadless() {
  * Pathnames to the various awt toolkits
  */
 
+// No we do not want the OSX specific lib with difficult code that needs to be ported
+// hence we use the other libs, but have to use dylib (not so)
 #ifdef MACOSX_SKIP_SKIP
   #define LWAWT_PATH "/libawt_lwawt.dylib"
   #define DEFAULT_PATH LWAWT_PATH
 #else
-  #define XAWT_PATH "/libawt_xawt.so"
+  #define XAWT_PATH "/libawt_xawt.dylib"
   #define DEFAULT_PATH XAWT_PATH
-  #define HEADLESS_PATH "/libawt_headless.so"
+  #define HEADLESS_PATH "/libawt_headless.dylib"
 #endif
 
 jint
