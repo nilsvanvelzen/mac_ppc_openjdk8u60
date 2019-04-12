@@ -634,6 +634,11 @@ static void* openFontConfig() {
     if (libfontconfig == NULL) {
         libfontconfig = dlopen(FONTCONFIG_DLL, RTLD_LOCAL|RTLD_LAZY);
         if (libfontconfig == NULL) {
+            printf("MAC PPC: port we failed to load the library %s\n",FONTCONFIG_DLL_VERSIONED);
+            printf("MAC PPC: you need to explicitly put this library in your jdk lib factory\n");
+            printf("MAC PPC: you might have to upde the build sript to add the correct copy action at build\n");
+            printf("MAC PPC: expect java to crash with some null pointer exception...\n");
+            fprintf(stderr, "MAC PPC: error: %s\n", dlerror());
             return NULL;
         }
     }
@@ -650,7 +655,6 @@ static void* openFontConfig() {
     if (homeEnv == NULL) {
         putenv(homeEnvStr);
     }
-
     return libfontconfig;
 }
 

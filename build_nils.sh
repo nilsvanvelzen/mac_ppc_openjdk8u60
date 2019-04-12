@@ -22,5 +22,12 @@ bash configure --prefix=$HOME/java8 --with-num-cores=1  --disable-headful --enab
 
 # don't know how to get the dtrace stuff working hence we disable it in the make (and hacks in makefiles)
 make HOTSPOT_DISABLE_DTRACE_PROBES=true LOG=debug 
+
+
+#hmm copy extra libraries......
+cp /usr/X11/lib/libfontconfig.1.dylib build/macosx-ppc-normal-zero-release/jdk/lib/
+
+
+
 make HOTSPOT_DISABLE_DTRACE_PROBES=true LOG=debug install
 

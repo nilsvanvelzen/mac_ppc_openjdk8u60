@@ -26,6 +26,9 @@ set the location of your bootstrap jdk1/7 in build_nils.sh
 
 Should do the trick (I hope)
 
+set_java8.sh is a script that helps you set the correct environment to run your java8. Important is the option -Djava.awt.headless=true, set in this script. Otherwise you run into a failed load of the xawt library.
+
+
 Have fun, I hope my work might be useful for others as well.
 
 
