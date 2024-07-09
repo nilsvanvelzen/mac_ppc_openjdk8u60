@@ -726,7 +726,7 @@ static void *java_start(Thread *thread) {
   // initialize floating point control register
   os::Bsd::init_thread_fpu_state();
 
-#ifdef __APPLE__
+#ifdef __APPLE__SKIP
   // register thread with objc gc
   if (objc_registerThreadWithCollectorFunction != NULL) {
     objc_registerThreadWithCollectorFunction();
@@ -3744,7 +3744,7 @@ jint os::init_2(void)
   // initialize thread priority policy
   prio_init();
 
-#ifdef __APPLE__
+#ifdef __APPLE__SKIP
   // dynamically link to objective c gc registration
   void *handleLibObjc = dlopen(OBJC_LIB, RTLD_LAZY);
   if (handleLibObjc != NULL) {
